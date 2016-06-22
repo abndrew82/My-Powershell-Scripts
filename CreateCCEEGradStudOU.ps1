@@ -1,53 +1,71 @@
-﻿#Script to create CCEE Grad Student OU's with Professors name
-$ProfName = Read-Host 'Enter Professors Unity ID?'
+﻿#Parameter so that script can be run with Professor name, or asked for on run
+Param (
+       [parameter(Mandatory=$True,HelpMessage='Enter Professors Unity ID')]
+       [string]$profname = ''
+       )
+#Script will Create structure if it does not exist and output at end
 $ADPath = "OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"
-New-ADOrganizationalUnit -Name $ProfName -Path $ADPath
+#Check if Professor already has an OU Structure
 If ([adsi]::Exists("LDAP://OU=$ProfName,OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"))
 {
-Write-Host "Professor OU Created"
-} else {
-Write-Host "Professor OU Not Created"
-}
+Write-Host "Professor already has a Grad Student OU"
+} Else {
+#Create OU If does not exist
+New-ADOrganizationalUnit -Name $ProfName -Path $ADPath
 $NewOU = "OU=$ProfName,$ADPath"
-Write-Host $NewOU
-#Create the Desktops OU
+#Create Desktops OU
 New-ADOrganizationalUnit -Name "Desktops" -Path $NewOU
-If ([adsi]::Exists("LDAP://OU=Desktops,OU=$ProfName,OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"))
-{
-Write-Host "Desktops OU Created"
-} else {
-Write-Host "Desktops OU Not Created"
-}
-$DesktopOU = "OU=Desktops,$NewOU"
-Write-Host $DesktopOU
-#Create the Laptops OU
+#Create Laptops OU
 New-ADOrganizationalUnit -Name "Laptops" -Path $NewOU
-If ([adsi]::Exists("LDAP://OU=Desktops,OU=$ProfName,OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"))
-{
-Write-Host "Laptops OU Created"
-} else {
-Write-Host "Laptops OU Not Created"
-}
-$LaptopOU = "OU=Laptops,$NewOU"
-Write-Host $LaptopOU
-#Create the Groups (.administrators, .Computers, .Desktops, .Laptops, .Users)
 $AdminGroupName = "CCEE-Grad Students." + $ProfName + ".Administrators"
-Write-Host $AdminGroupName
+#Create .adminstrators Group for Professor
 New-ADGroup -Name $AdminGroupName -Path $NewOU -GroupCategory Security -GroupScope Global
+#Add Professor to his .administrators Group
 Add-ADGroupMember -Identity $AdminGroupName -Member $ProfName
 $ComputerGroup = "CCEE-Grad Students." + $ProfName + ".Computers"
-Write-Host $ComputerGroup
+#Create Computers Group under OU
 New-ADGroup -Name $ComputerGroup -Path $NewOU -GroupCategory Security -GroupScope Global
 $DesktopGroup = "CCEE-Grad Students." + $ProfName + ".Desktops"
-Write-Host $DesktopGroup
+#Create Desktops Group under OU
 New-ADGroup -Name $DesktopGroup -Path $NewOU -GroupCategory Security -GroupScope Global
 $LaptopGroup = "CCEE-Grad Students." + $ProfName + ".Laptops"
-Write-Host $LaptopGroup
+#Create Laptops group under OU
 New-ADGroup -Name $LaptopGroup -Path $NewOU -GroupCategory Security -GroupScope Global
 $UserGroup = "CCEE-Grad Students." + $ProfName + ".Users"
-Write-Host $UserGroup
+#Create .users group under OU
 New-ADGroup -Name $UserGroup -Path $NewOU -GroupCategory Security -GroupScope Global
+#Adds Access for ITECS Helpdesk to computers
 Add-ADGroupMember -Identity $UserGroup -Member "CCEE-Grad Students.Users"
 #Make Desktops and Labtops Members of the Computers Group
 Add-ADGroupMember -Identity $ComputerGroup -Member $DesktopGroup
 Add-ADGroupMember -Identity $ComputerGroup -Member $LaptopGroup
+#Check if OU Actually Created
+If ([adsi]::Exists("LDAP://OU=$ProfName,OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"))
+{ Write-Host "Professor OU Created" }
+
+If ([adsi]::Exists("LDAP://OU=Desktops,OU=$ProfName,OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"))
+{ Write-Host "Professor Desktops OU Created" }
+
+If ([adsi]::Exists("LDAP://OU=Laptops,OU=$ProfName,OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"))
+{ Write-Host "Professor Laptops OU Created" }
+
+$USERGROUPCN = "CN=" + $UserGroup + "," + "OU=" + $profname + ",OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"
+If ([adsi]::Exists("LDAP://$USERGROUPCN"))
+{ Write-Host "Professor Users group created" }
+
+$COMPUTERSGROUPCN = "CN=" + $UserGroup + "," + "OU=" + $profname + ",OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"
+If ([adsi]::Exists("LDAP://$COMPUTERSGROUPCN"))
+{ Write-Host "Professor Computers group created" }
+
+$DESKTOPSGROUPCN = "CN=" + $UserGroup + "," + "OU=" + $profname + ",OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"
+If ([adsi]::Exists("LDAP://$DESKTOPSGROUPCN"))
+{ Write-Host "Professor Desktops group created" }
+
+$LAPTOPSGROUPCN = "CN=" + $UserGroup + "," + "OU=" + $profname + ",OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"
+If ([adsi]::Exists("LDAP://$LAPTOPSGROUPCN"))
+{ Write-Host "Professor Laptops group created" }
+
+$ADMINISTRATORGROUPCN = "CN=" + $UserGroup + "," + "OU=" + $profname + ",OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu"
+If ([adsi]::Exists("LDAP://$ADMINISTRATORGROUPCN"))
+{ Write-Host "Professor .Administrators group created" }
+}

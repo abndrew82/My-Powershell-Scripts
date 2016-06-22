@@ -1,0 +1,41 @@
+SetADComputer.ps1												Test - Setting Locaton field of Computer in AD										
+GetADComputer.ps1												Test - Get AD Computer Location Field Info
+GetComputersFromOU.ps1											Test - Random Code get Getting AD Computers from AD
+GetFacultyGradStudentsandComputers.ps1							Gets All Faculty from CCEE-Faculty group, and goes through Grad Student OUs giving computer names and users assigned
+Old-Comp-Info.ps1												Pulls computers from OU, and created 2 out files one for all comps and one for comps with Pass Last set date older than 6/1/2015
+LockdownBrowserFix.ps1											Fixed issue we had with Lockdown browser in Windows 8.1
+Hyper-V-Manager.ps1												Tool to manage Hyper-V Snapshots and start and stop VMs, Currently connects to Timon can update for other Servers or make a Prompt
+OfficeReassign.ps1												Assigned Office 2010 to all Faculty Grad Students Computers
+CreateADComputer.ps1											Creates AD Computers with Netboot GUID, based off a List.csv file that has Comp name and Mac address columns
+CreateCCEEGradStudOU.ps1										Work in Progress to replace VBScript that creates OU Structure for new CCEE Faculty with Grad Students
+Itecs-Dashboard.ps1												ITECS Dashboard tool, is currently on all Itecs Computers for Student Use
+FindSavedPidginPasswords.ps1									Connects to a computer and gets stored passwords, to see if Students have saved their Unity Password which is plain text
+ClearCache.ps1													Clear SCCM Cache
+create_sccm_software_package_collections_coedean.ps1			Not my script, but creates collections for SCCM Sofware, written by SRLeap
+GetADComp-More.ps1												Delete Scripts
+FindComputersOldOU.ps1											Duplicate of Old Comp Info, or close to it
+PTV-Vistro-Licenseupdate.ps1									Updates license for PTV Vistro, requires license file, and list of comps, can be modified to pull list from AD
+CompMemory.ps1													Uses WMI to get amount of memory a computer has
+PTV-Vissim-LicenseUpdate.ps1									Updates license for PTV Vissim, requires license file, and list of comps, can be modified to pull list from AD
+Faculty-Check.ps1												Test script, takes computer name and strips out Faculty name, then checks if they are a member of CCEE Faculty
+Create-AD-Software-Group.ps1									Creats AD Groups with supplied information about Software and such
+Get-ADComp-Location.ps1											Get AD Computer Info, Name, Location, and IPV4Address
+CompIPLoc.ps1													Gets Information about Grad student computers, Group must be placed in script currently
+NestedGroup-Members.ps1											Get computer information from nested ad group
+CompNameIPOSPass.ps1											Gets AD Computer info, same as previous but also gets OS
+CreateSCCMCollectionandAddMember.ps1							Example info for how Collections are created in SCCM, this one creates a Collection and adds members directly
+GetUsersfromAllCOEDEANOUs.ps1									Get list of users from all COEDean units
+SignPowershell.ps1												Commands to sign a powershell script
+CheckSCCMCacheSize.ps1											Test - Check size of SCCM Cache size using powershell
+CheckSCCMCacheSize.ps1											Test - Check size of SCCM Cache size using powershell
+FindDisabledAccountsGroup.ps1									Find disabled AD Accounts in specified AD Group
+FindAdminGroupPresence.ps1										Checks if a list of grad students are currently in a .administrators group
+FindDisabledAccountsCCEEGRAD.ps1								Same as FindDisabledAccountsGroup.ps1
+findemptyous.ps1												Find OUs that have no computers under CCEE Grad Students
+COEDEANDisabled.ps1												Find all disabled AD Accounts in COEDEAN Staff
+FindNetBootGuidinAD.ps1											Finds computers in AD with specified MAC Address
+SeperateStrings.ps1												Test - Practice Separating strings
+ConvertNetBootguidtoMAC.ps1										Converts netboot guid back to MAC Address and fixes 0 to 00
+addisabledaccounts.ps1											Finds disabled ad accounts, has commented out field to remove them
+SCCMCollectionsINfo.ps1											Find SCCM Collections within COEDEAN that have no members
+SCCMResourceInfo.ps1											Get information about a computer / resource in SCCM
