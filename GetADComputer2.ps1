@@ -1,0 +1,1 @@
+﻿Get-ADComputer -LDAPFilter "(name=*CCEE*)" -SearchBase "OU=Temp-415,OU=Grad Students,OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu" | Select Name
