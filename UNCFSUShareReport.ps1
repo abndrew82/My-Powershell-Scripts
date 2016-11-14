@@ -16,7 +16,10 @@ If ($ReportName -eq "$null")
 {
 $ReportName = "UNCFSUShareDefault"
 }
+If ($file.Length -ge "1024")
+{
 $filesize = $file.Length/1MB
+}
 $fileandsize = $file.FullName + "|" + $file.LastAccessTime + "|" + $filesize
 Out-File $Destination\$ReportName.txt -InputObject $fileandsize -Append
 }
