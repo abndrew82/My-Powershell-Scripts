@@ -57,13 +57,16 @@ function Call-MainForm_psf
 	$MainForm = New-Object 'System.Windows.Forms.Form'
 	$labelShareName = New-Object 'System.Windows.Forms.Label'
 	$labelDays = New-Object 'System.Windows.Forms.Label'
+    $labelChosenDate = New-Object 'System.Windows.Forms.Label'
 	$labelDestination = New-Object 'System.Windows.Forms.Label'
     $textbox1 = New-Object 'System.Windows.Forms.TextBox'
 	$textbox2 = New-Object 'System.Windows.Forms.TextBox'
 	$textbox3 = New-Object 'System.Windows.Forms.TextBox'
     $buttonCreatereport = New-Object 'System.Windows.Forms.Button'
+    $Calendar = New-Object System.Windows.Forms.MonthCalendar
     $buttonBrowse = New-Object 'System.Windows.Forms.Button'
     $buttonMoveFiles = New-Object 'System.Windows.Forms.Button'
+    $OKButton = New-Object 'System.Windows.Forms.Button'
     
 	#endregion Generated Form Objects
 
@@ -139,6 +142,16 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
     $Destination = $textbox3.Text
     Get-ChildItem -Path $Share -Recurse | Where-Object {$_.LastAccessTime -lt (Get-Date).AddDays(-$Days)} | Move-Item -Destination $Destination
 	}
+    #
+#OK Button Click
+    $OKButton_Click=
+    {
+	#TODO: Place custom script here
+    #$date = $calendar.SelectionStart
+    $textbox2.Text = $calendar.SelectionStart
+    #$textbox2.Text = $($date.ToShortDateString())
+	}
+#
 	# --End User Generated Script--
 	
 	#----------------------------------------------
@@ -150,17 +163,20 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
 	#
 	$MainForm.Controls.Add($labelShareName)
 	$MainForm.Controls.Add($labelDays)
+    $MainForm.Controls.Add($labelChosenDate)
 	$MainForm.Controls.Add($labelDestination)
 	$MainForm.Controls.Add($buttonCreatereport)
     $MainForm.Controls.Add($buttonBrowse)
     $MainForm.Controls.Add($buttonMoveFiles)
+    $MainForm.Controls.Add($Calendar)
     $MainForm.Controls.Add($textbox1)
 	$MainForm.Controls.Add($textbox2)
 	$MainForm.Controls.Add($textbox3)
-    $MainForm.ClientSize = '600, 200'
+    $MainForm.Controls.Add($OKButton)
+    $MainForm.ClientSize = '600, 350'
 	$MainForm.Name = "MainForm"
 	$MainForm.StartPosition = 'CenterScreen'
-	$MainForm.Text = "FSU Share Reporter"
+    $MainForm.Text = "FSU Share Reporter"
 	$MainForm.add_Load($OnLoadFormEvent)
 	#
 	# labelShareName
@@ -179,13 +195,13 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
     $labelDaysFont = New-Object System.Drawing.Font("Times New Roman",18,[System.Drawing.FontStyle]::Bold)
 	$labelDays.Name = "labelDays"
     $labelDays.Font = $labelDaysFont
-	$labelDays.Size = '150, 30'
+	$labelDays.Size = '60, 30'
 	$labelDays.TabIndex = 10
-	$labelDays.Text = "# of Days"
+	$labelDays.Text = "Date"
 	#
 	# labelDestination
 	#
-	$labelDestination.Location = '20, 90'
+	$labelDestination.Location = '20, 220'
     $labelDestinationFont = New-Object System.Drawing.Font("Times New Roman",18,[System.Drawing.FontStyle]::Bold)
 	$labelDestination.Name = "labelDestination"
     $labelDestination.Font = $labelDestinationFont
@@ -206,18 +222,19 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
 	#	
 	# textbox2
 	#
-	$textbox2.Location = '180, 50'
+	$textbox2.Location = '440, 150'
     $Textbox2Font = New-Object System.Drawing.Font("Times New Roman",12,[System.Drawing.FontStyle]::Bold)
     $Textbox2.Multiline = $True
     $textbox2.Font = $Textbox2Font
 	$textbox2.Name = "textbox2"
-	$textbox2.Size = '75, 25'
+	$textbox2.Size = '150, 25'
+    $textbox2.ReadOnly = $True
 	$textbox2.TabIndex = 0
 	$MainForm.ResumeLayout()
 	#	
 	# textbox3
 	#
-	$textbox3.Location = '180, 90'
+	$textbox3.Location = '180, 220'
     $Textbox3Font = New-Object System.Drawing.Font("Times New Roman",12,[System.Drawing.FontStyle]::Bold)
     $Textbox3.Multiline = $True
     $textbox3.Font = $Textbox3Font
@@ -229,7 +246,7 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
 	#		
 	# Button Generate Report
 	#
-	$buttonCreatereport.Location = '50, 140'
+	$buttonCreatereport.Location = '50, 270'
 	$buttonCreatereport.Name = "buttonGetInfo"
     $buttoncreatereportFont = New-Object System.Drawing.Font("Times New Roman",14,[System.Drawing.FontStyle]::Bold)
 	$buttonCreatereport.Size = '200, 35'
@@ -241,7 +258,7 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
 	#	
 	# Button Browse
 	#
-	$buttonBrowse.Location = '440, 90'
+	$buttonBrowse.Location = '440, 220'
 	$buttonBrowse.Name = "buttonBrowse"
     $buttonBrowseFont = New-Object System.Drawing.Font("Times New Roman",14,[System.Drawing.FontStyle]::Bold)
 	$buttonBrowse.Size = '135, 25'
@@ -253,7 +270,7 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
 	#	
 	# Button Move Files
 	#
-	$buttonMoveFiles.Location = '325, 140'
+	$buttonMoveFiles.Location = '325, 270'
 	$buttonMoveFiles.Name = "buttonMoveFiles"
     $buttonMoveFilesFont = New-Object System.Drawing.Font("Times New Roman",14,[System.Drawing.FontStyle]::Bold)
 	$buttonMoveFiles.Size = '200, 35'
@@ -263,6 +280,31 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
 	$buttonMoveFiles.UseVisualStyleBackColor = $True
 	$buttonMoveFiles.add_Click($buttonMoveFiles_Click)
 	#	
+    # Calendar
+    #
+    $Calendar.Location = '180, 50'
+    $Calendar.ShowTodayCircle = $false
+    $Calendar.MaxSelectionCount = 1
+    #
+    #OK Button
+    #
+    $OKButton.Location = '440, 180'
+    $OKButtonFont = New-Object System.Drawing.Font("Times New Roman",14,[System.Drawing.FontStyle]::Bold)
+    $OKButton.Size = '135, 25'
+    $OKButton.Font = $OKButtonFont
+    $OKButton.Text = "Select Date"
+    $OKButton.add_Click($OKButton_Click)
+    #
+    #
+    #Label Chosen Date
+    #
+    $labelChosenDate.Location = '440, 50'
+    $labelChosenDateFont = New-Object System.Drawing.Font("Times New Roman",20,[System.Drawing.FontStyle]::Bold)
+    $labelChosenDate.Size = '150, 90'
+    #$labelChosenDate.BackColor = 'Blue'
+    $labelChosenDate.Font = $labelChosenDateFont
+    $labelChosenDate.Text = " You Chose" + "`n" + "     Date:"
+    #
 	#endregion Generated Form Code
 
 	#----------------------------------------------
