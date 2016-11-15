@@ -1,1 +1,5 @@
-﻿Get-ADComputer -LDAPFilter "(name=*itecs*)" -SearchBase "OU=ITECS,OU=Staff,OU=COEDEAN,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu" -Properties * | Select Name,Created,DNSHostName,IPv4Address,LastLogonDate | Out-GridView
+﻿$a = Get-ADComputer -LDAPFilter "(name=*)" -SearchBase "CN=Computers,DC=uncfsu,DC=edu" -Properties * | Select -ExpandProperty Name
+ForEach ($b in $a)
+{
+Write-Host $b
+}

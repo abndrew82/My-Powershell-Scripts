@@ -1,5 +1,5 @@
 ﻿#Get Members of the Group recursivly to pull all computers in the groups
-$AllComps = get-adcomputer -Filter {ObjectClass -Like "Computer"} -SearchBase 'OU=CCEE,OU=COE,OU=NCSU,DC=wolftech,DC=ad,DC=ncsu,DC=edu' | Select -ExpandProperty Name
+$AllComps = get-adcomputer -Filter {ObjectClass -Like "Computer"} -SearchBase 'DC=uncfsu,DC=edu' | Select -ExpandProperty Name
 #For Each computer get Computer Name and IP Address, OS, and Check if Old AD Record and output that to a txt file
 ForEach ($Computer in $AllComps)
 {
@@ -9,13 +9,13 @@ $PassSet = Get-ADComputer -Identity $Computer -Properties * | select -ExpandProp
 $OS = Get-ADComputer -Identity $Computer -Properties * | select -ExpandProperty OperatingSystem
 #Write-Host $Name " | " $IP
 $Compinfo = $Name + " | " + $IP + " | " + $OS + " | " + $PassSet
-Out-File -InputObject $Compinfo C:\Users\apsenn.admin\Desktop\ITECSComps.txt -Append
+Out-File -InputObject $Compinfo d:\oldcomps.txt -Append
 ForEach ($Pass in $PassSet)
 {
 If ($Pass -lt '6/1/2015')
 {
 $OLDCOMPS = $Name + " | " + $IP + " | " + $OS + " | " +  $PassSet + " | " + "OLD COMPUTER"
-Out-File -InputObject $OLDCOMPS C:\Users\apsenn.admin\Desktop\OldGradComps.txt -Append
+Out-File -InputObject $OLDCOMPS D:\OldComps2.txt -Append
 }
 }
 }

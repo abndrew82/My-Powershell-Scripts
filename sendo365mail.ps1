@@ -1,0 +1,1 @@
+﻿Send-MailMessage -To "asenn@uncfsu.edu" -SmtpServer "webmail.uncfsu.edu" -Subject "Task Sequence Complete" -Port "587" -Body "SCCM Task Sequence has completed installing" -From "asenn@uncfsu.edu" -BodyAsHtml
