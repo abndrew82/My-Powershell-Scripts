@@ -1,0 +1,1 @@
+﻿Get-CMApplication -Name "VLC Player" | New-CMApplicationDeployment -DeployAction Install -DeployPurpose Available -CollectionId "FS100291"

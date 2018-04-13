@@ -1,0 +1,2 @@
+﻿#Get-CMSoftwareUpdateGroup -Name "2017 - Quarter 1 - Office"
+Get-CMSoftwareUpdate -UpdateGroupName "2017 - Quarter 1 - Office" -Fast | Where {$_.IsSuperseded -EQ "False"} | Select -ExpandProperty LocalizedDisplayName

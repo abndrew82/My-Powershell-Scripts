@@ -1,0 +1,2 @@
+﻿$biosvalues = (Get-WmiObject -Namespace "Root\DCIM\SYSMAN" -Class "DCIM_BIOSENUMERATION" | Where-Object {$_.AttributeName -eq "Boot Mode"}).PossibleValues
+if("2" -in $biosvalues) {return 0;Write-Host "Why do you always write Host?"}

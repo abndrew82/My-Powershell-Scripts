@@ -1,0 +1,1 @@
+﻿Get-ADComputer -SearchBase "OU=2 - Disabled Computer Accounts,OU=Workstations,OU=FSU,DC=uncfsu,DC=edu" -Filter {Enabled -eq $true} -Properties CanonicalName |  Group-Object {($_.CanonicalName -Split "/")[2]} 

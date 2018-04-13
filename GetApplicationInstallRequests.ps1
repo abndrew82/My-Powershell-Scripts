@@ -1,0 +1,1 @@
+﻿ Get-WmiObject -Class SMS_UserApplicationRequest -Namespace root/SMS/site_FS1 -ComputerName fsusccm | Where-Object {$_.CurrentState -eq "4"} | Select Application, User, RequestedMachine

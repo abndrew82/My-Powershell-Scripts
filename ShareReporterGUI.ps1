@@ -99,13 +99,14 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
     {
 	#TODO: Place custom script here
 	$share = $Textbox1.Text
-    Write-Host $Share
+    #Write-Host $Share
 	$Days = $Textbox2.Text
-    Write-Host $Days
+    #Write-Host $Days
     $Destination = $textbox3.Text
 	$ReturnData = @()
 	$ReportName = $Share -creplace '(?s)^.*\\', ''
-	$Files = Get-ChildItem -Path $Share -Recurse | Where-Object {$_.LastAccessTime -lt (Get-Date).AddDays(-$Days)}
+	$Files = Get-ChildItem -Path $Share -Recurse | Where-Object {$_.LastAccessTime -lt $days}
+    $Files.lastaccesstime 
 	ForEach ($File in $Files)
 	{
 	 If ($ReportName -eq "$null")
@@ -128,7 +129,7 @@ function Read-FolderBrowserDialog([string]$Message, [string]$InitialDirectory, [
     {
 	#TODO: Place custom script here
     $directoryPath = Read-FolderBrowserDialog -Message "Please select a directory" -NoNewFolderButton
-    if (![string]::IsNullOrEmpty($directoryPath)) { Write-Host "You selected the directory: $directoryPath" }
+    if (![string]::IsNullOrEmpty($directoryPath)) {  }
     else { "You did not select a directory." }
     $textbox3.Text = $directoryPath
     }

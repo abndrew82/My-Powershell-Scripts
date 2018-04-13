@@ -1,5 +1,5 @@
 ﻿#Get Members of the Group recursivly to pull all computers in the groups
-$AllComps = get-adcomputer -Filter {ObjectClass -Like "Computer"} -SearchBase 'DC=uncfsu,DC=edu' | Select -ExpandProperty Name
+$AllComps = get-adcomputer -Filter {ObjectClass -Like "Computer"} -SearchBase 'OU=Chestnutt Library,OU=Workstations,OU=FSU,DC=uncfsu,DC=edu' | Select -ExpandProperty Name
 #For Each computer get Computer Name and IP Address, OS, and Check if Old AD Record and output that to a txt file
 ForEach ($Computer in $AllComps)
 {
