@@ -1,12 +1,12 @@
 ﻿$ErrorActionPreference = "SilentlyContinue"
 Do
 {
-$Content = Test-Path "C:\Users\asenn\Documents\DoUntil.txt"
-If ($Content -ne "True")
+$Fail = Get-Content -Tail 1 -Path F:\testreadend.txt
+If ($Fail -eq "Pass")
 {
-Write-Host "File Does not exist - Will check again shortly"
+Write-Host "Still a Pass"
 }
-$pause = Test-Connection 1.1.1.1 -Count 10 | Out-Null
+$pause = Test-Connection 1.1.1.1 -Count 3 | Out-Null
 }
-Until ($Content -eq "True")
-Write-Host "File exists Now"
+Until ($Fail -eq "Fail")
+Write-Host "We have found Fail"
