@@ -1,4 +1,4 @@
-﻿$Computers = Get-CMDevice -CollectionName "LSA 125" | Select-Object-Object -ExpandProperty Name
+﻿$Computers = Get-CMDevice -CollectionName "LSA 125" | Select-Object -ExpandProperty Name
 $CompsSorted = $Computers | Sort-Object
 ForEach ($Computer in $CompsSorted)
 {
@@ -13,9 +13,9 @@ $Memory = "$Memory GB"
 $Manufacturer = Get-WmiObject Win32_ComputerSystem -ComputerName $Computer | Select-Object -ExpandProperty Manufacturer
 $Model = Get-WmiObject Win32_ComputerSystem -ComputerName $Computer | Select-Object -ExpandProperty Model
 $CompName = Get-WmiObject Win32_ComputerSystem -ComputerName $Computer | Select-Object -ExpandProperty Name
-$LoggedonUser = Get-WmiObject –ComputerName $Computer –Class Win32_ComputerSystem | Select-Object-Object -ExpandProperty UserName
-#Write-Host $CompName "|" $Status  "|" $Manufacturer "|" $Model "|" $Memory "|" $LoggedonUser
-$CompName + "|" + $Status
+$LoggedonUser = Get-WmiObject –ComputerName $Computer –Class Win32_ComputerSystem | Select-Object -ExpandProperty UserName
+Write-Host $CompName "|" $Status  "|" $Manufacturer "|" $Model "|" $Memory "|" $LoggedonUser
+#$CompName + "|" + $Status
 }
 ElseIf ($TestConn -eq $false)
 {
