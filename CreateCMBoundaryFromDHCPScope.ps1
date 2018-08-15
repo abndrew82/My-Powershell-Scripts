@@ -1,4 +1,6 @@
-﻿$SecureWifiScopes = Get-DhcpServerv4Scope -ComputerName dhcp01b | Where-Object {$_.Name -eq "DMZ"} | Select -ExpandProperty Name
+﻿Import-Module 'C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin\ConfigurationManager.psd1'
+Set-Location FS1:
+$SecureWifiScopes = Get-DhcpServerv4Scope -ComputerName dhcp01b | Where-Object {$_.Name -eq "Smith_Admin"} | Select -ExpandProperty Name
 ForEach ($SecureWifiScope in $SecureWifiScopes)
 {
 $StartIP = Get-DhcpServerv4Scope -ComputerName "dhcp01b.uncfsu.edu" | Where-Object {$_.Name -eq $SecureWifiScope} | Select -ExpandProperty StartRange

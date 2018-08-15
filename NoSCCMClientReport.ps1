@@ -17,7 +17,6 @@ $header = '<table border="1">
 <td><b>OS</b></td>
 <td><b>offline Days</b></td>
 <td><b>AD Created</b></td>
-<td><b>Days PWD Changed</b></td>
 <td><b>Days since AD Logon</b></td>
 <td><b>Currently Pingable</b></td>
 </tr>'
@@ -37,6 +36,7 @@ $OS = "No Data"
 }
 Try
 {
+$Today = (Get-Date)
 $Created = Get-ADComputer -Identity $DeviceName -Properties Created  | Select-Object -ExpandProperty Created 
 $PassSet = Get-ADComputer -Identity $DeviceName -Properties passwordlastset | Select-Object -ExpandProperty passwordlastset
 $ADLogon = Get-ADComputer -Identity $DeviceName -Properties LastLogonDate | Select-Object -ExpandProperty LastLogonDate
@@ -65,7 +65,7 @@ $LastOffline = $DeviceInfo.CNLastOfflineTime
 $OffDiff =  $Today - $LastOffline
 $OffDiff = $OffDiff.Days
 }
-$data += "<tr><td>$DeviceName</td><td>$User</td><td>$OS</td><td>$OffDiff</td><td>$Created</td><td>$PassSet</td><td>$ADLogon</td><td>$TestConn</td></tr>" | Sort-Object $DeviceName
+$data += "<tr><td>$DeviceName</td><td>$User</td><td>$OS</td><td>$OffDiff</td><td>$Created</td><td>$ADLogon</td><td>$TestConn</td></tr>" | Sort-Object $DeviceName
 }
 $html = $title + $header + $data
 Send-MailMessage @EmailParams -Body $html -BodyAsHtml

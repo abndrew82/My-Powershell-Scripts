@@ -68,5 +68,6 @@ $OffDiff = $OffDiff.Days
 $data += "<tr><td>$DeviceName</td><td>$User</td><td>$OS</td><td>$OffDiff</td><td>$Created</td><td>$PassSet</td><td>$ADLogon</td><td>$TestConn</td></tr>" | Sort-Object $DeviceName
 }
 $html = $title + $header + $data
-Send-MailMessage @EmailParams -Body $html -BodyAsHtml
+#Send-MailMessage @EmailParams -Body $html -BodyAsHtml
+Out-File -InputObject $html 
 Remove-Variable * -ErrorAction SilentlyContinue
