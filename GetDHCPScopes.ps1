@@ -1,0 +1,1 @@
+﻿Get-DhcpServerv4Scope -ComputerName dhcp01b | Where {$_.State -eq "Active"} | Select-Object ScopeId, SubnetMask, Name
