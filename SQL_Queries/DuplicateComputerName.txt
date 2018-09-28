@@ -1,0 +1,5 @@
+Select v_R_System.ResourceID, v_R_System.ResourceType, v_R_System.Name0, v_R_System.SMS_Unique_Identifier0,
+v_R_System.Resource_Domain_OR_Workgr0, v_R_System.Client0 from v_R_System
+full join v_R_System as s1 on s1.ResourceID = v_R_System.ResourceID
+full join v_R_System as s2 on s2.Name0 = s1.Name0
+where s1.Name0 = s2.Name0 and s1.ResourceID != s2.ResourceID

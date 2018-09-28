@@ -1,0 +1,38 @@
+<ActionDescription Class="Group" DisplayName="FSU Tools" Description="Tools for FSU">
+	<ShowOn>
+		<string>ContextMenu</string>
+		<string>DefaultHomeTab</string>
+	</ShowOn>
+	<ActionGroups>
+<ActionDescription Class ="Executable" DisplayName="Rename Computer" MnemonicDisplayName="Rename Computer" Description="Not a required value">
+ 	<ShowOn>
+		<string>ContextMenu</string>
+		<string>DefaultHomeTab</string>
+	</ShowOn>
+	<Executable>
+		<FilePath>"c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"</FilePath>
+		<Parameters>-executionpolicy bypass -windowstyle hidden -file "C:\Program Files\FSU TOOLS\RenameComp.ps1" -OldName "##SUB:Name##"</Parameters>
+	</Executable>	
+</ActionDescription>
+<ActionDescription Class ="Executable" DisplayName="Ping Test" MnemonicDisplayName="Ping Test" Description="Not a required value">
+ 	<ShowOn>
+		<string>ContextMenu</string>
+		<string>DefaultHomeTab</string>
+	</ShowOn>
+	<Executable>
+		<FilePath>"c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"</FilePath>
+		<Parameters>-executionpolicy bypass -file "C:\Program Files\FSU TOOLS\PingComp.ps1" -CompName "##SUB:Name##"</Parameters>
+	</Executable>	
+</ActionDescription>
+<ActionDescription Class ="Executable" DisplayName="OSD Info" MnemonicDisplayName="OSD Info" Description="Not a required value">
+ 	<ShowOn>
+		<string>ContextMenu</string>
+		<string>DefaultHomeTab</string>
+	</ShowOn>
+	<Executable>
+		<FilePath>"c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"</FilePath>
+		<Parameters>-executionpolicy bypass -WindowStyle Hidden -file "C:\Program Files\FSU TOOLS\ImagedBy.ps1" -CompName "##SUB:Name##"</Parameters>
+	</Executable>	
+</ActionDescription>
+	</ActionGroups>
+</ActionDescription>

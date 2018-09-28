@@ -1,0 +1,6 @@
+InstalledSoftware | summarize count() by ProductName, ProductVersion | where (ProductName like '%Mozilla Firefox%')
+File('%windir%\\notepad.exe')
+Registry('hklm:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion')
+Registry('hklm:\\SOFTWARE\\Policies\\Microsoft\\OneDrive')
+Registry('hklm:\\SOFTWARE\\Policies\\Microsoft\\OneDrive') | where (Property like '%KFMSilentOptIn%')
+Registry('hklm:\\SOFTWARE\\Policies\\Microsoft\\OneDrive') | where (Property == 'KFMSilentOptIn')
