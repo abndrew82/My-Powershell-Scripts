@@ -24,14 +24,20 @@ $MonthFullName #Full Month Name August#
 ,
 [Parameter(Mandatory=$true)]
 [String]
+$3rd_or_Windows #Full Month Name August#
+,
+[Parameter(Mandatory=$true)]
+[String]
 $Year #4 Digit year#
 )
 $date = Get-Date
 $date.ToLongDateString()
+If ($3rd_or_Windows -eq "3rd")
+{
 New-CMSoftwareUpdateGroup -Name "$MonthFullName $Year Microsoft Updates"
 $NewupdateGroup = "$MonthFullName $Year Microsoft Updates"
 Sleep 10
-$GroupstoCombine = Get-CMSoftwareUpdateGroup |  Where-Object {$_.LocalizedDisplayName -like "*$Year-$TwoDigitMonth*"} | Select -ExpandProperty LocalizedDisplayName
+$GroupstoCombine = Get-CMSoftwareUpdateGroup |  Where-Object {$_.LocalizedDisplayName -like "*$Year-$TwoDigitMonth*" -and  $_.LocalizedDisplayName -like "*3rd*"} | Select -ExpandProperty LocalizedDisplayName
 ForEach ($Group in $GroupstoCombine)
 {
 $Updates = Get-CMSoftwareUpdate -UpdateGroupName $Group -Fast | Select -ExpandProperty LocalizedDisplayName
@@ -47,3 +53,4 @@ New-CMSoftwareUpdateDeployment -SoftwareUpdateGroupName $NewupdateGroup -Deploym
 New-CMSoftwareUpdateDeployment -SoftwareUpdateGroupName $NewupdateGroup -DeploymentName $NewupdateGroup `
 -DeploymentType Required -TimeBasedOn LocalTime -UserNotification DisplaySoftwareCenterOnly -AllowRestart $true -RestartWorkstation $true `
 -CollectionId "FS1001A4" -DeadlineDateTime $date -AvailableDateTime $date -SoftwareInstallation $true
+}
